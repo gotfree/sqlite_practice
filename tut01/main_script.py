@@ -13,8 +13,29 @@ cur.execute(customers_sql)
 
 products_sql = """
 CREATE TABLE products (
-    id integer PROMARY KEY,
+    id integer PRIMARY KEY,
     name text NOT NULL,
     price real NOT NULL
 )"""
 cur.execute(products_sql)
+
+orders_sql = """
+CREATE TABLE orders (
+    id integer PRIMARY KEY,
+    date text NOT NULL,
+    customer_id integer,
+    FOREIGN KEY (customer_id) REFERENCES customers (id)
+)"""
+cur.execute(orders_sql)
+
+lineitems_sql = """
+CREATE TABLE lineitems (
+    id integer PRIMARY KEY,
+    quantity integer NOT NULL,
+    total real NOT NULL,
+    product_id integer,
+    order_id integer,
+    FOREIGN KEY (product_id) REFERENCES products (id),
+    FOREIGN KEY (order_id) REFERENCES orders (id)
+)"""
+cur.execute(lineitems_sql)
